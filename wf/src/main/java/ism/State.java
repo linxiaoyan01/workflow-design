@@ -37,6 +37,11 @@ public class State<T> {
         return state;
     }
 
+    public void setToNoneToDo() {
+        tobeStarted.clear();
+        ing.clear();
+    }
+
     public void initState(State<T> state){
         state.payload = this.payload;
 
@@ -45,6 +50,12 @@ public class State<T> {
 
         state.toIngMsg = this.toIngMsg;
         state.alreadySend.addAll(this.alreadySend);
+    }
+
+
+    public boolean noneToDo() {
+        if (!tobeStarted.isEmpty()) return false;
+        return ing.isEmpty();
     }
 
 }

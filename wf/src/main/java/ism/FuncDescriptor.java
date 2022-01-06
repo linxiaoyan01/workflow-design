@@ -31,13 +31,12 @@ public class FuncDescriptor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FuncDescriptor that = (FuncDescriptor) o;
-        return Objects.equals(funcID, that.funcID) &&
-                Objects.equals(options, that.options);
+        return Objects.equals(funcID, that.funcID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(funcID, options);
+        return Objects.hash(funcID);
     }
 
 }

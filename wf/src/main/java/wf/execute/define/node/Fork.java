@@ -6,21 +6,20 @@ import wf.Data;
 import wf.ForkToken;
 import wf.ForkTokenManager;
 import wf.IExprEval;
-import wf.execute.define.Node2;
-import wf.execute.define.Transition2;
+import wf.execute.define.Node;
+import wf.execute.define.Transition;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Fork2 extends Node2 {
+public class Fork extends Node {
 
 
     //条件表达式求值接口
     private IExprEval exprEval;
 
-    public Fork2(String id, IExprEval exprEval) {
+    public Fork(String id, IExprEval exprEval) {
         super(id);
         this.exprEval = exprEval;
     }
@@ -35,7 +34,7 @@ public class Fork2 extends Node2 {
         ForkTokenManager forkTokenManager = ForkTokenManager.instance(nextState);
 
         //得到所有边上表达式为true的出边
-        List<Transition2> trueOutGoingTransitions = outGoings.stream()
+        List<Transition> trueOutGoingTransitions = outGoings.stream()
                 .filter(transition -> exprEval.eval(transition.condition))
                 .collect(Collectors.toList());
 

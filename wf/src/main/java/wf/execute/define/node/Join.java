@@ -2,25 +2,20 @@ package wf.execute.define.node;
 
 import ism.FuncDescriptor;
 import ism.State;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import wf.Data;
-import wf.ForkToken;
 import wf.ForkTokenManager;
-import wf.execute.define.Node2;
-import wf.execute.define.Transition2;
+import wf.execute.define.Node;
+import wf.execute.define.Transition;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Join2 extends Node2 {
+public class Join extends Node {
 
-    public static final String KEY_FORK_ID="KEY_FORK_ID";
+    private final String forkID;
 
-    public Join2(String id, Map<String, Object> options) {
+    public Join(String id, String forkID) {
         super(id);
-        this.options.putAll(options);
+        this.forkID=forkID;
     }
 
     @Override
@@ -30,16 +25,14 @@ public class Join2 extends Node2 {
 
     @Override
     public void transfer(FuncDescriptor funcDescriptor, State<Data> nextState) {
-        Transition2 next = next(nextState);
+        Transition next = next(nextState);
         if (next != null)
             nextState.tobeStarted.add(new FuncDescriptor(next.to));
     }
 
 
-    protected Transition2 next(State<Data> returnState) {
+    protected Transition next(State<Data> returnState) {
         ForkTokenManager forkTokenManager = ForkTokenManager.instance(returnState);
-
-        String forkID = (String) options.get(KEY_FORK_ID);
 
         //所有的token都持有
         if (!forkTokenManager.allInOneNode(forkID, id)) return null;
@@ -48,7 +41,7 @@ public class Join2 extends Node2 {
         //清空后，本节点就不在持有对应的fork的任何token
         forkTokenManager.removeToken(forkID);
 
-        Transition2 next = outGoings.iterator().next();
+        Transition next = outGoings.iterator().next();
 
         //传递到下游
         forkTokenManager.pass2Node(id, next.to);

@@ -10,7 +10,7 @@ public class Case<T> {
 
     public Funcs<T> funcs;
 
-    private State<T> currentState;
+    public State<T> currentState;
 
     //主循环逻辑
     private void fireNextFunc() {
